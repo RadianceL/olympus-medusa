@@ -40,21 +40,21 @@ func ResSuccessMsg(c *gin.Context) {
 }
 
 // ResFail 响应失败
-func ResFail(c *gin.Context, msg string) {
+func ResFail(context *gin.Context, msg string) {
 	ret := ModelBase{Code: FailCode, Message: msg}
-	ResJSON(c, http.StatusOK, &ret)
+	ResJSON(context, http.StatusOK, &ret)
 }
 
 // ResFailCode 响应失败
-func ResFailCode(c *gin.Context, msg string, code int) {
+func ResFailCode(context *gin.Context, msg string, code int) {
 	ret := ModelBase{Code: code, Message: msg}
-	ResJSON(c, http.StatusOK, &ret)
+	ResJSON(context, http.StatusOK, &ret)
 }
 
 // ResJSON 响应JSON数据
-func ResJSON(c *gin.Context, status int, v interface{}) {
-	c.JSON(status, v)
-	c.Abort()
+func ResJSON(context *gin.Context, status int, v interface{}) {
+	context.JSON(status, v)
+	context.Abort()
 }
 
 // ResErrSrv 响应错误-服务端故障
