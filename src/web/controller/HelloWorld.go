@@ -9,7 +9,7 @@ import (
 
 type Result struct{}
 
-func (Result) List(context *gin.Context) {
+func (result Result) List(context *gin.Context) {
 	email := Entity.Email{ID: 10, UserID: 1111, Email: "931305033@qq.com", Subscribed: true}
 	_ = Models.Create(email)
 	Response.ResSuccessMsg(context)

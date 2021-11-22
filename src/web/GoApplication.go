@@ -18,7 +18,7 @@ import (
 func Run(configPath string) {
 	// 获取配置路径
 	if configPath == "" {
-		configPath = "./config.yaml"
+		configPath = "./application.yaml"
 	}
 	// 初始化日志配置
 	logger.InitLog("debug", "./data/log/log.log")
