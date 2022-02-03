@@ -1,4 +1,4 @@
-GET http://{{baseUrl}}/api/menu/list
+GET https://{{baseUrl}}/api/menu/list
 Accept: */*
 Cache-Control: no-cache
 
