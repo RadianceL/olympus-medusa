@@ -25,6 +25,5 @@ func RegisterRouter(app *gin.Engine) {
 	// 权限验证
 	var notCheckPermissionUrlArr []string
 	notCheckPermissionUrlArr = append(notCheckPermissionUrlArr, notCheckLoginUrlArr...)
-	notCheckPermissionUrlArr = append(notCheckPermissionUrlArr, apiPrefix+"/menu/menubuttonlist")
 	RegisterRouterSys(ginGroup)
 }

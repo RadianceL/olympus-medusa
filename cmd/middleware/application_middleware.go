@@ -11,7 +11,6 @@ import (
 	"io"
 	"io/ioutil"
 	"medusa-globalization-copywriting-system/cmd/web/entity/response"
-	"net/http"
 	"sort"
 	"strings"
 )
@@ -32,7 +31,6 @@ func NoRouteHandler() gin.HandlerFunc {
 
 func Validate(skipperFunc SkipperFunc) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		resp := response.Model{}
 		_ = c.Request.URL.Path
 		b := skipperFunc(c)
 		if b {
@@ -44,14 +42,14 @@ func Validate(skipperFunc SkipperFunc) gin.HandlerFunc {
 		if contentType != "application/json" {
 			c.Abort()
 			//Content-Type 类型只支持 application/json
-			c.JSON(http.StatusUnauthorized, resp)
+			response.ResFail(c, "Content-Type 类型只支持 application/json")
 			return
 		}
 		assessKey := c.DefaultQuery("assessKey", "")
 		if assessKey == "" {
 			c.Abort()
 			// token缺失
-			c.JSON(http.StatusUnauthorized, resp)
+			response.ResFail(c, "token缺失")
 			return
 		}
 
