@@ -19,13 +19,13 @@ func Run(configPath string) {
 	if configPath == "" {
 		configPath = "./application.yaml"
 	}
-	// 初始化日志配置
-	logger.InitLog("debug", "./data/log/log.log")
 	// 加载配置
 	loadConfig, err := config.LoadConfig(configPath)
 	if err != nil {
 		panic(err)
 	}
+	// 初始化日志配置
+	logger.InitLog("debug", "./build/data/log/log.log")
 	// 初始化数据
 	initDB(loadConfig)
 	// 初始化web服务
