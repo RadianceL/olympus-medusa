@@ -2,9 +2,9 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	Models "medusa-globalization-copywriting-system/src/pkg"
-	Entity "medusa-globalization-copywriting-system/src/web/entity"
-	Response "medusa-globalization-copywriting-system/src/web/entity/response"
+	Models "medusa-globalization-copywriting-system/cmd/datasource"
+	Entity "medusa-globalization-copywriting-system/cmd/web/entity"
+	Response "medusa-globalization-copywriting-system/cmd/web/entity/response"
 )
 
 type Result struct{}

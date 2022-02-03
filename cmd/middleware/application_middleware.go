@@ -10,7 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"io"
 	"io/ioutil"
-	"medusa-globalization-copywriting-system/src/web/entity/response"
+	"medusa-globalization-copywriting-system/cmd/web/entity/response"
 	"net/http"
 	"sort"
 	"strings"

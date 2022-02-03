@@ -1,18 +1,17 @@
-package models
+package datasource
 
 import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"log"
-	"medusa-globalization-copywriting-system/src/pkg/config"
-	"medusa-globalization-copywriting-system/src/pkg/datasource"
-	"medusa-globalization-copywriting-system/support/logger"
+	"medusa-globalization-copywriting-system/cmd/config"
+	"medusa-globalization-copywriting-system/tools/logger"
 	"os"
 	"time"
 )
 
-func InitDB(config *config.Config) {
+func ConnectionDatabase(config *config.Config) {
 	var gdb *gorm.DB
 	var err error
 	if config.DataSource.DBType == "mysql" {
@@ -33,5 +32,5 @@ func InitDB(config *config.Config) {
 	gdb.DB().SetMaxIdleConns(config.DataSource.MaxIdleConnections)
 	gdb.DB().SetMaxOpenConns(config.DataSource.MaxOpenConnections)
 	gdb.DB().SetConnMaxLifetime(time.Duration(config.DataSource.MaxLifetime) * time.Second)
-	datasource.DB = gdb
+	DB = gdb
 }

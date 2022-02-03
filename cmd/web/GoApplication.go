@@ -3,13 +3,12 @@ package application
 import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
-	models "medusa-globalization-copywriting-system/src/pkg"
-	"medusa-globalization-copywriting-system/src/pkg/config"
-	AppConfig "medusa-globalization-copywriting-system/src/web/config"
-	"medusa-globalization-copywriting-system/src/web/middleware"
-	routers "medusa-globalization-copywriting-system/src/web/router"
-	"medusa-globalization-copywriting-system/support/convert"
-	"medusa-globalization-copywriting-system/support/logger"
+	"medusa-globalization-copywriting-system/cmd/config"
+	"medusa-globalization-copywriting-system/cmd/datasource"
+	"medusa-globalization-copywriting-system/cmd/middleware"
+	"medusa-globalization-copywriting-system/cmd/web/router"
+	"medusa-globalization-copywriting-system/tools/convert"
+	"medusa-globalization-copywriting-system/tools/logger"
 	"net/http"
 	"time"
 )
@@ -23,7 +22,7 @@ func Run(configPath string) {
 	// 初始化日志配置
 	logger.InitLog("debug", "./data/log/log.log")
 	// 加载配置
-	loadConfig, err := AppConfig.LoadConfig(configPath)
+	loadConfig, err := config.LoadConfig(configPath)
 	if err != nil {
 		panic(err)
 	}
@@ -34,7 +33,7 @@ func Run(configPath string) {
 }
 
 func initDB(config *config.Config) {
-	models.InitDB(config)
+	datasource.ConnectionDatabase(config)
 	logger.Debug("数据库加载完成.......")
 }
 

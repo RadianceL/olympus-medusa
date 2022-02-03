@@ -1,7 +1,8 @@
 package routers
 
 import (
-	"medusa-globalization-copywriting-system/src/web/middleware"
+	"medusa-globalization-copywriting-system/cmd/middleware"
+
 	//"html/template"
 	"net/http"
 

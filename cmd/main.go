@@ -1,10 +1,10 @@
 package main
 
 import (
-	application "medusa-globalization-copywriting-system/src/web"
+	"medusa-globalization-copywriting-system/cmd/web"
 )
 
 func main() {
-	application.Run("")
+	application.Run("./configs/application.yaml")
 	select {}
 }

@@ -1,12 +1,11 @@
-package AppConfig
+package config
 
 import (
 	"github.com/spf13/viper"
-	"medusa-globalization-copywriting-system/src/pkg/config"
 )
 
 // LoadConfig 加载配置
-func LoadConfig(configPath string) (c *config.Config, err error) {
+func LoadConfig(configPath string) (c *Config, err error) {
 	v := viper.New()
 	v.SetConfigFile(configPath)
 	v.SetConfigType("yaml")
@@ -14,7 +13,7 @@ func LoadConfig(configPath string) (c *config.Config, err error) {
 		err = err1
 		return
 	}
-	c = &config.Config{}
+	c = &Config{}
 	c.Web.StaticPath = v.GetString("web.static_path")
 	c.Web.Domain = v.GetString("web.domain")
 	c.Web.Port = v.GetInt("web.port")

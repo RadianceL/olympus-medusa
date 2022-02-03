@@ -2,7 +2,7 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	"medusa-globalization-copywriting-system/src/web/controller"
+	"medusa-globalization-copywriting-system/cmd/web/controller"
 )
 
 func RegisterRouterSys(app *gin.RouterGroup) {
