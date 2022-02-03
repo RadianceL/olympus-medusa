@@ -1,0 +1,6 @@
+GET http://{{baseUrl}}/api/menu/list
+Accept: */*
+Cache-Control: no-cache
+
+###
+
