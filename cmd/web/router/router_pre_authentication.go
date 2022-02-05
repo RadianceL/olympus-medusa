@@ -1,8 +1,6 @@
 package routers
 
 import (
-	"medusa-globalization-copywriting-system/cmd/middleware"
-
 	//"html/template"
 	"net/http"
 
@@ -18,9 +16,9 @@ func RegisterRouter(app *gin.Engine) {
 	var notCheckLoginUrlArr []string
 	notCheckLoginUrlArr = append(notCheckLoginUrlArr, apiPrefix+"/user/login")
 	notCheckLoginUrlArr = append(notCheckLoginUrlArr, apiPrefix+"/user/logout")
-	ginGroup.Use(middleware.Validate(
-		middleware.AllowPathPrefixSkipper(notCheckLoginUrlArr...),
-	))
+	//ginGroup.Use(middleware.Validate(
+	//	middleware.AllowPathPrefixSkipper(notCheckLoginUrlArr...),
+	//))
 
 	// 权限验证
 	var notCheckPermissionUrlArr []string

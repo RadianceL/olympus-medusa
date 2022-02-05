@@ -2,10 +2,10 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	"medusa-globalization-copywriting-system/cmd/web/controller"
+	"medusa-globalization-copywriting-system/cmd/web/handler"
 )
 
 func RegisterRouterSys(app *gin.RouterGroup) {
-	menu := controller.Result{}
-	app.GET("/menu/list", menu.List)
+	menu := handler.RestHandler{}
+	app.POST("/menu/list", menu.CreateGlobalizationCopyWriting)
 }
