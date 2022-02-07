@@ -1,4 +1,4 @@
-package application
+package main
 
 import (
 	"github.com/gin-gonic/gin"
@@ -6,7 +6,7 @@ import (
 	"medusa-globalization-copywriting-system/cmd/config"
 	"medusa-globalization-copywriting-system/cmd/datasource"
 	"medusa-globalization-copywriting-system/cmd/middleware"
-	"medusa-globalization-copywriting-system/cmd/web/router"
+	"medusa-globalization-copywriting-system/cmd/router"
 	"medusa-globalization-copywriting-system/tools/convert"
 	"medusa-globalization-copywriting-system/tools/logger"
 	"net/http"
@@ -14,11 +14,8 @@ import (
 )
 
 // Run 运行
-func Run(configPath string) {
-	// 获取配置路径
-	if configPath == "" {
-		configPath = "./application.yaml"
-	}
+func main() {
+	configPath := "./configs/application.yaml"
 	// 加载配置
 	loadConfig, err := config.LoadConfig(configPath)
 	if err != nil {
@@ -27,33 +24,25 @@ func Run(configPath string) {
 	// 初始化日志配置
 	logger.InitLog("debug", "./build/data/log/log.log")
 	// 初始化数据
-	initDB(loadConfig)
+	datasource.ConnectionDatabase(loadConfig.DataSource)
+	logger.Debug("数据库加载完成.......")
 	// 初始化web服务
 	initWeb(loadConfig)
 }
 
-func initDB(config *config.Config) {
-	datasource.ConnectionDatabase(config)
-	logger.Debug("数据库加载完成.......")
-}
-
-func initWeb(loadConfig *config.Config) {
+func initWeb(config *config.Config) {
 	gin.SetMode(gin.DebugMode)
-	app := gin.New()
+	app := gin.Default()
 	app.NoRoute(middleware.NoRouteHandler())
 	app.NoMethod(middleware.NoMethodHandler())
 	// 崩溃恢复
 	app.Use(middleware.RecoveryMiddleware())
 	// 注册路由
 	routers.RegisterRouter(app)
-	go initHTTPServer(loadConfig, app)
-}
 
-// InitHTTPServer 初始化http服务
-func initHTTPServer(config *config.Config, handler http.Handler) {
 	srv := &http.Server{
 		Addr:         ":" + convert.ToString(config.Web.Port),
-		Handler:      handler,
+		Handler:      app,
 		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 10 * time.Second,
 		IdleTimeout:  15 * time.Second,

@@ -3,13 +3,15 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
-	Models "medusa-globalization-copywriting-system/cmd/datasource"
-	Entity "medusa-globalization-copywriting-system/cmd/web/entity"
-	Response "medusa-globalization-copywriting-system/cmd/web/entity/response"
+	"github.com/jinzhu/gorm"
+	Entity "medusa-globalization-copywriting-system/cmd/entity"
+	Response "medusa-globalization-copywriting-system/cmd/entity/response"
 	"medusa-globalization-copywriting-system/tools/logger"
 )
 
 type RestHandler struct{}
+
+var DB *gorm.DB
 
 func (result RestHandler) CreateGlobalizationCopyWriting(context *gin.Context) {
 	json := make(map[string]string)
@@ -19,6 +21,6 @@ func (result RestHandler) CreateGlobalizationCopyWriting(context *gin.Context) {
 	}
 	logger.Info("aaa{}", json)
 	email := &Entity.Email{ID: 10, UserID: 1111, Email: json["111"], Subscribed: true}
-	Models.DB.Save(email)
+	DB.Save(email)
 	Response.ResSuccessMsg(context)
 }

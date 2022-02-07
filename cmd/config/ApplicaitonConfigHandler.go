@@ -5,12 +5,12 @@ import (
 )
 
 // LoadConfig 加载配置
-func LoadConfig(configPath string) (c *Config, err error) {
+func LoadConfig(configPath string) (c *Config, resultError error) {
 	v := viper.New()
 	v.SetConfigFile(configPath)
 	v.SetConfigType("yaml")
-	if err1 := v.ReadInConfig(); err1 != nil {
-		err = err1
+	if err := v.ReadInConfig(); err != nil {
+		resultError = err
 		return
 	}
 	c = &Config{}
@@ -20,13 +20,13 @@ func LoadConfig(configPath string) (c *Config, err error) {
 	c.Web.ReadTimeout = v.GetInt("web.read_timeout")
 	c.Web.WriteTimeout = v.GetInt("web.write_timeout")
 	c.Web.IdleTimeout = v.GetInt("web.idle_timeout")
-	c.SQLite.Path = v.GetString("sqlite3.path")
-	c.MySQL.Host = v.GetString("mysql.host")
-	c.MySQL.Port = v.GetInt("mysql.port")
-	c.MySQL.User = v.GetString("mysql.user")
-	c.MySQL.Password = v.GetString("mysql.password")
-	c.MySQL.DBName = v.GetString("mysql.db_name")
-	c.MySQL.Parameters = v.GetString("mysql.parameters")
+	c.DataSource.SQLite.Path = v.GetString("sqlite3.path")
+	c.DataSource.MySQL.Host = v.GetString("gorm.mysql.host")
+	c.DataSource.MySQL.Port = v.GetInt("gorm.mysql.port")
+	c.DataSource.MySQL.User = v.GetString("gorm.mysql.user")
+	c.DataSource.MySQL.Password = v.GetString("gorm.mysql.password")
+	c.DataSource.MySQL.DBName = v.GetString("gorm.mysql.db_name")
+	c.DataSource.MySQL.Parameters = v.GetString("gorm.mysql.parameters")
 	c.DataSource.Debug = v.GetBool("gorm.debug")
 	c.DataSource.DBType = v.GetString("gorm.db_type")
 	c.DataSource.MaxLifetime = v.GetInt("gorm.max_lifetime")

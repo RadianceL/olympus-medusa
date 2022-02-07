@@ -11,26 +11,25 @@ import (
 	"time"
 )
 
-func ConnectionDatabase(config *config.Config) {
+func ConnectionDatabase(config config.DataSource) {
 	var gdb *gorm.DB
 	var err error
-	if config.DataSource.DBType == "mysql" {
-		config.DataSource.DSN = config.MySQL.DSN()
-	} else if config.DataSource.DBType == "sqlite3" {
-		config.DataSource.DSN = config.SQLite.DSN()
+	if config.DBType == "mysql" {
+		config.DSN = config.MySQL.DSN()
+	} else if config.DBType == "sqlite3" {
+		config.DSN = config.SQLite.DSN()
 	}
-	logger.Info(config.DataSource.DSN)
-	gdb, err = gorm.Open(config.DataSource.DBType, config.DataSource.DSN)
+	logger.Info(config.DSN)
+	gdb, err = gorm.Open(config.DBType, config.DSN)
 	if err != nil {
 		panic(err)
 	}
 	gdb.SingularTable(true)
-	if config.DataSource.Debug {
+	if config.Debug {
 		gdb.LogMode(true)
 		gdb.SetLogger(log.New(os.Stdout, "\r\n", 0))
 	}
-	gdb.DB().SetMaxIdleConns(config.DataSource.MaxIdleConnections)
-	gdb.DB().SetMaxOpenConns(config.DataSource.MaxOpenConnections)
-	gdb.DB().SetConnMaxLifetime(time.Duration(config.DataSource.MaxLifetime) * time.Second)
-	DB = gdb
+	gdb.DB().SetMaxIdleConns(config.MaxIdleConnections)
+	gdb.DB().SetMaxOpenConns(config.MaxOpenConnections)
+	gdb.DB().SetConnMaxLifetime(time.Duration(config.MaxLifetime) * time.Second)
 }

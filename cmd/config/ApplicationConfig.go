@@ -7,8 +7,6 @@ import (
 type Config struct {
 	Web        Web
 	DataSource DataSource
-	MySQL      MySQL
-	SQLite     SQLite
 }
 
 type Web struct {
@@ -28,6 +26,8 @@ type DataSource struct {
 	MaxIdleConnections int
 	TablePrefix        string
 	DSN                string
+	MySQL              MySQL
+	SQLite             SQLite
 }
 
 type MySQL struct {
