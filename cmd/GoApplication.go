@@ -13,9 +13,10 @@ import (
 	"time"
 )
 
+const configPath = "./configs/application.yaml"
+
 // Run 运行
 func main() {
-	configPath := "./configs/application.yaml"
 	// 加载配置
 	loadConfig, err := config.LoadConfig(configPath)
 	if err != nil {
@@ -25,7 +26,6 @@ func main() {
 	logger.InitLog("debug", "./build/data/log/log.log")
 	// 初始化数据
 	datasource.ConnectionDatabase(loadConfig.DataSource)
-	logger.Debug("数据库加载完成.......")
 	// 初始化web服务
 	initWeb(loadConfig)
 }

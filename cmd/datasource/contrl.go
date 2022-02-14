@@ -32,4 +32,5 @@ func ConnectionDatabase(config config.DataSource) {
 	gdb.DB().SetMaxIdleConns(config.MaxIdleConnections)
 	gdb.DB().SetMaxOpenConns(config.MaxOpenConnections)
 	gdb.DB().SetConnMaxLifetime(time.Duration(config.MaxLifetime) * time.Second)
+	logger.Debug("数据库加载完成.......")
 }
