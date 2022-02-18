@@ -20,7 +20,7 @@ func (result RestHandler) CreateGlobalizationCopyWriting(context *gin.Context) {
 		return
 	}
 	logger.Info("aaa{}", json)
-	email := &Entity.Email{ID: 10, UserID: 1111, Email: json["111"], Subscribed: true}
+	email := &Entity.CopywritingAddRequest{}
 	DB.Save(email)
 	Response.ResSuccessMsg(context)
 }

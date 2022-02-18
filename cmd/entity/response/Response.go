@@ -8,22 +8,18 @@ import (
 )
 
 const (
-	SuccessCode           = 20000      /* 成功的状态码 */
-	FailCode              = 30000      /* 失败的状态码 */
-	TOKEN_KEY             = "X-Token"  /* 页面token键名 */
-	USER_ID_Key           = "X-USERID" /* 页面用户ID键名 */
-	USER_UUID_Key         = "X-UUID"   /* 页面UUID键名 */
-	SUPER_ADMIN_ID uint64 = 956986     /* 超级管理员账号ID */
+	SuccessCode = "0000" /* 成功的状态码 */
+	FailCode    = "1001" /* 失败的状态码 */
 )
 
 type Model struct {
-	Code    int         `json:"code"`
+	Code    string      `json:"code"`
 	Message string      `json:"message"`
 	Data    interface{} `json:"data"`
 }
 
 type ModelBase struct {
-	Code    int    `json:"code"`
+	Code    string `json:"code"`
 	Message string `json:"message"`
 }
 
@@ -46,7 +42,7 @@ func ResFail(context *gin.Context, msg string) {
 }
 
 // ResFailCode 响应失败
-func ResFailCode(context *gin.Context, msg string, code int) {
+func ResFailCode(context *gin.Context, msg string, code string) {
 	ret := ModelBase{Code: code, Message: msg}
 	ResJSON(context, http.StatusOK, &ret)
 }
@@ -75,7 +71,7 @@ type PageData struct {
 }
 
 type Page struct {
-	Code    int      `json:"code"`
+	Code    string   `json:"code"`
 	Message string   `json:"message"`
 	Data    PageData `json:"data"`
 }
