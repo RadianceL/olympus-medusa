@@ -1,15 +1,10 @@
 package routers
 
 import (
-	//"html/template"
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 )
 
 func RegisterRouter(app *gin.Engine) {
-	//首页
-	app.GET("/", func(c *gin.Context) { c.HTML(http.StatusOK, "index.html", nil) })
 	apiPrefix := "/api"
 	ginGroup := app.Group(apiPrefix)
 	// 登录验证 jwt token 验证 及信息提取
