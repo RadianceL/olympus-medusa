@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/mattn/go-sqlite3" // Import the sqlite driver.
 	"medusa-globalization-copywriting-system/cmd/config"
 	"medusa-globalization-copywriting-system/cmd/datasource"
 	"medusa-globalization-copywriting-system/cmd/middleware"
@@ -25,7 +26,8 @@ func main() {
 	// 初始化日志配置
 	logger.InitLog("debug", "./build/data/log/log.log")
 	// 初始化数据
-	datasource.ConnectionDatabase(loadConfig.DataSource)
+	datasource.GetConnectionByDriver(loadConfig.DataSource.DBType).InitDB(loadConfig.DataSource)
+
 	// 初始化web服务
 	initWeb(loadConfig)
 }
