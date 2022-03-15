@@ -8,7 +8,7 @@ web:
 application:
     log:
         level: debug
-        logPath: ./build/data/log/log.log
+        logPath: ./asset/log/log.log
 gorm:
   debug: true
   db_type: sqlite3
