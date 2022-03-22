@@ -623,7 +623,7 @@ func (sql *SQL) clean() {
 // RecycleSQL clear the SQL and put into the pool.
 func RecycleSQL(sql *SQL) {
 
-	logger.Panic(sql.Statement, sql.Args)
+	logger.Info(sql.Statement, sql.Args)
 
 	sql.clean()
 

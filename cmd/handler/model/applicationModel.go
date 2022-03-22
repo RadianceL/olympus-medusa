@@ -3,6 +3,7 @@ package model
 import (
 	"medusa-globalization-copywriting-system/cmd/datasource"
 	"medusa-globalization-copywriting-system/cmd/datasource/dialect"
+	Entity "medusa-globalization-copywriting-system/cmd/entity/request"
 )
 
 // ApplicationModel is application model structure.
@@ -21,24 +22,24 @@ type ApplicationModel struct {
 
 // Application return a default menu model.
 func Application() ApplicationModel {
-	return ApplicationModel{Base: Base{TableName: "email"}}
+	return ApplicationModel{Base: Base{TableName: "tb_application"}}
 }
 
-func (t ApplicationModel) SetConn(con datasource.Connection) ApplicationModel {
-	t.Conn = con
-	return t
+func (applicationModel ApplicationModel) SetConn(connection datasource.Connection) ApplicationModel {
+	applicationModel.Conn = connection
+	return applicationModel
 }
 
 // AddApplication add a role to the menu.
-func (t ApplicationModel) AddApplication(roleId string) (int64, error) {
-	if roleId != "" {
-		return t.Table("email").
-			Insert(dialect.H{
-				"id":         t.Id,
-				"user_id":    "111",
-				"email":      "111",
-				"subscribed": "111",
-			})
-	}
-	return 0, nil
+func (applicationModel ApplicationModel) AddApplication(applicationAddRequest Entity.ApplicationAddRequest) (int64, error) {
+	return applicationModel.Table("tb_application").
+		Insert(dialect.H{
+			"id":                         applicationModel.Id,
+			"application_name":           applicationAddRequest.ApplicationName,
+			"application_administrators": 1234,
+			"application_type":           "111",
+			"application_path":           "111",
+			"must_contain_language":      "{}",
+			"application_environment":    "111",
+		})
 }

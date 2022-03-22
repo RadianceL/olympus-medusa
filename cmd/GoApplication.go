@@ -26,8 +26,7 @@ func main() {
 	// 初始化日志配置
 	logger.InitLog("debug", "./build/data/log/log.log")
 	// 初始化数据
-	datasource.GetConnectionByDriver(loadConfig.DataSource.DBType).InitDB(loadConfig.DataSource)
-
+	datasource.Conn = datasource.GetConnectionByDriver(loadConfig.DataSource.DBType).InitDB(loadConfig.DataSource)
 	// 初始化web服务
 	initWeb(loadConfig)
 }

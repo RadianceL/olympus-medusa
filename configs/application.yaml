@@ -11,17 +11,16 @@ application:
         logPath: ./asset/log/log.log
 gorm:
   debug: true
-  db_type: sqlite3
+  db_type: mysql
   max_lifetime: 7200
   max_open_conns: 150
   max_idle_conns: 50
-  table_prefix: tb_
   mysql:
-    host: 127.0.0.1
+    host: rm-uf6wq7d56177336o8oo.mysql.rds.aliyuncs.com
     port: 3306
-    user: root
-    password: Qwer7410
-    db_name: go_test
+    user: pass_saas_cn_super
+    password: K9dA3amSkZm7%##p
+    db_name: globalization_language_document
     parameters: charset=utf8&parseTime=True&loc=Asia%2FShanghai
 sqlite3:
   path: ./assets/database.sqlite

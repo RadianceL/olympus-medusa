@@ -3,6 +3,7 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
+	"medusa-globalization-copywriting-system/cmd/datasource"
 	Entity "medusa-globalization-copywriting-system/cmd/entity/request"
 	Response "medusa-globalization-copywriting-system/cmd/entity/response"
 	"medusa-globalization-copywriting-system/cmd/handler/model"
@@ -13,14 +14,15 @@ type RestHandler struct{}
 
 // CreateApplication 创建多语言应用/**
 func (result RestHandler) CreateApplication(context *gin.Context) {
-	json := &Entity.ApplicationAddRequest{}
-	err := context.ShouldBindBodyWith(&json, binding.JSON)
+	applicationAddRequest := &Entity.ApplicationAddRequest{}
+	err := context.ShouldBindBodyWith(&applicationAddRequest, binding.JSON)
 	if err != nil {
 		return
 	}
-	applicationModel := model.Application().SetConn(nil)
-	_, err = applicationModel.AddApplication("")
+	applicationModel := model.Application().SetConn(datasource.Conn)
+	_, err = applicationModel.AddApplication("123")
 	if err != nil {
+		Response.ResErrCli(context, err)
 		return
 	}
 

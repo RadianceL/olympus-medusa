@@ -61,7 +61,7 @@ func ResErrSrv(c *gin.Context, err error) {
 
 // ResErrCli 响应错误-用户端故障
 func ResErrCli(c *gin.Context, err error) {
-	ret := ModelBase{Code: FailCode, Message: "err"}
+	ret := ModelBase{Code: FailCode, Message: err.Error()}
 	ResJSON(c, http.StatusOK, &ret)
 }
 
