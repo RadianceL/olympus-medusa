@@ -20,7 +20,7 @@ func (result RestHandler) CreateApplication(context *gin.Context) {
 		return
 	}
 	applicationModel := model.Application().SetConn(datasource.Conn)
-	_, err = applicationModel.AddApplication("123")
+	_, err = applicationModel.AddApplication(applicationAddRequest)
 	if err != nil {
 		Response.ResErrCli(context, err)
 		return

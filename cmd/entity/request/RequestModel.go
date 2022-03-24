@@ -1,9 +1,18 @@
 package request
 
 type ApplicationAddRequest struct {
-	ApplicationName           string `json:"applicationName,omitempty"`
-	ApplicationType           string `json:"applicationType,omitempty"`
-	ApplicationAdministrators string `json:"applicationAdministrators,omitempty"`
+	// 应用名称
+	ApplicationName string `json:"application_name,omitempty"`
+	// 应用类型 WEB & APPLICATION
+	ApplicationType string `json:"application_type,omitempty"`
+	// 应用管理员
+	ApplicationAdministrators int32 `json:"application_administrators,omitempty"`
+	// 应用路径 默认应用路径
+	ApplicationPath string `json:"application_path,omitempty"`
+	// 包含的语言范围
+	ApplicationLanguage []string `json:"application_language,omitempty"`
+	// 应用环境
+	ApplicationEnvironment string `json:"application_environment,omitempty"`
 }
 
 type DocumentAddRequest struct {
