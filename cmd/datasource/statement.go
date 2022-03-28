@@ -5,8 +5,11 @@
 package datasource
 
 import (
+	"bytes"
 	dbsql "database/sql"
+	"encoding/gob"
 	"errors"
+	"github.com/mitchellh/mapstructure"
 	"medusa-globalization-copywriting-system/cmd/datasource/dialect"
 	"medusa-globalization-copywriting-system/tools/logger"
 	"regexp"
@@ -433,12 +436,28 @@ func (sql *SQL) First() (map[string]interface{}, error) {
 }
 
 // All query all the result and return.
-func (sql *SQL) All() ([]map[string]interface{}, error) {
+func (sql *SQL) All(out interface{}) ([]interface{}, error) {
 	defer RecycleSQL(sql)
 
 	sql.dialect.Select(&sql.SQLComponent)
+	with, err := sql.diver.QueryWith(sql.tx, sql.conn, sql.Statement, sql.Args...)
 
-	return sql.diver.QueryWith(sql.tx, sql.conn, sql.Statement, sql.Args...)
+	var result []interface{}
+	for _, value := range with {
+		mapstructure.Decode(value, &out)
+		outputResult := out
+		result = append(result, outputResult)
+	}
+
+	return result, err
+}
+
+func GOBDeepCopy(dst, src interface{}) error {
+	var buf bytes.Buffer
+	if err := gob.NewEncoder(&buf).Encode(src); err != nil {
+		return err
+	}
+	return gob.NewDecoder(bytes.NewBuffer(buf.Bytes())).Decode(dst)
 }
 
 // ShowColumns show columns info.
@@ -543,8 +562,6 @@ func (sql *SQL) Exec() (int64, error) {
 	return res.LastInsertId()
 }
 
-const postgresInsertCheckTableName = "goadmin_menu|goadmin_permissions|goadmin_roles|goadmin_users"
-
 // Insert exec the insert method of given key/value pairs.
 func (sql *SQL) Insert(values dialect.H) (int64, error) {
 	defer RecycleSQL(sql)
@@ -553,49 +570,35 @@ func (sql *SQL) Insert(values dialect.H) (int64, error) {
 
 	sql.dialect.Insert(&sql.SQLComponent)
 
-	if sql.diver.Name() == DriverPostgresql && (strings.Contains(postgresInsertCheckTableName, sql.TableName)) {
-
+	if sql.diver.Name() == DriverPostgresql {
 		resMap, err := sql.diver.QueryWith(sql.tx, sql.conn, sql.Statement+" RETURNING id", sql.Args...)
-
 		if err != nil {
-
 			// Fixed java h2 database postgresql mode
 			_, err := sql.diver.QueryWith(sql.tx, sql.conn, sql.Statement, sql.Args...)
-
 			if err != nil {
 				return 0, err
 			}
-
 			res, err := sql.diver.QueryWithConnection(sql.conn, `SELECT max("id") as "id" FROM "`+sql.TableName+`"`)
-
 			if err != nil {
 				return 0, err
 			}
-
 			if len(res) != 0 {
 				return res[0]["id"].(int64), nil
 			}
-
 			return 0, err
 		}
-
 		if len(resMap) == 0 {
 			return 0, errors.New("no affect row")
 		}
-
 		return resMap[0]["id"].(int64), nil
 	}
-
 	res, err := sql.diver.ExecWith(sql.tx, sql.conn, sql.Statement, sql.Args...)
-
 	if err != nil {
 		return 0, err
 	}
-
 	if affectRow, _ := res.RowsAffected(); affectRow < 1 {
 		return 0, errors.New("no affect row")
 	}
-
 	return res.LastInsertId()
 }
 

@@ -81,6 +81,15 @@ func (result RestHandler) ListGlobalizationCopyWritingNamespace(context *gin.Con
 	if json.Path == "" {
 		Response.ResFail(context, "")
 	}
+
+	applicationAddRequest := &Entity.ApplicationAddRequest{}
+	err1 := context.ShouldBindBodyWith(&applicationAddRequest, binding.JSON)
+	if err1 != nil {
+		return
+	}
+	applicationModel := model.Application().SetConn(datasource.Conn)
+	_, err = applicationModel.SearchApplicationList(applicationAddRequest)
+
 	logger.Info("aaa{}", json)
 	Response.ResSuccessMsg(context)
 }

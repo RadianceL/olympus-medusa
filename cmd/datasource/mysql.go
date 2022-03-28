@@ -24,6 +24,16 @@ type Mysql struct {
 	Base
 }
 
+func (db *Mysql) Close() []error {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (db *Mysql) GetDB(key string) *sql.DB {
+	//TODO implement me
+	panic("implement me")
+}
+
 func (db *Mysql) GetConfig(name string) config.DataSource {
 	//TODO implement me
 	panic("implement me")
@@ -38,12 +48,11 @@ func (db *Mysql) CreateDB(name string, beans ...interface{}) error {
 func GetMysqlDB() *Mysql {
 	return &Mysql{
 		Base: Base{
-			DbList: make(map[string]*sql.DB),
+			DbList: make(map[string]*gorm.DB),
 		},
 	}
 }
 
-// InitDB implements the method Connection.InitDB.
 func (db *Mysql) InitDB(config config.DataSource) Connection {
 	db.Configs = config
 	db.Once.Do(func() {
@@ -65,7 +74,7 @@ func (db *Mysql) InitDB(config config.DataSource) Connection {
 		gdb.DB().SetConnMaxLifetime(time.Duration(config.MaxLifetime) * time.Second)
 		logger.Debug("数据库加载完成.......")
 
-		db.DbList["default"] = gdb.DB()
+		db.DbList["default"] = gdb
 
 		if err := gdb.DB().Ping(); err != nil {
 			panic(err)

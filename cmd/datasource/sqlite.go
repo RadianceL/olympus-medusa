@@ -21,6 +21,16 @@ type Sqlite struct {
 	Base
 }
 
+func (db *Sqlite) Close() []error {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (db *Sqlite) GetDB(key string) *sql.DB {
+	//TODO implement me
+	panic("implement me")
+}
+
 func (db *Sqlite) InitDB(config config.DataSource) Connection {
 	db.Configs = config
 	db.Once.Do(func() {
@@ -42,7 +52,7 @@ func (db *Sqlite) InitDB(config config.DataSource) Connection {
 		gdb.DB().SetConnMaxLifetime(time.Duration(config.MaxLifetime) * time.Second)
 		logger.Debug("数据库加载完成.......")
 
-		db.DbList["default"] = gdb.DB()
+		db.DbList["default"] = gdb
 
 		if err := gdb.DB().Ping(); err != nil {
 			panic(err)
@@ -65,7 +75,7 @@ func (db *Sqlite) CreateDB(name string, beans ...interface{}) error {
 func GetSqliteDB() *Sqlite {
 	return &Sqlite{
 		Base: Base{
-			DbList: make(map[string]*sql.DB),
+			DbList: make(map[string]*gorm.DB),
 		},
 	}
 }
@@ -92,7 +102,7 @@ func (db *Sqlite) GetDelimiters() []string {
 
 // QueryWithConnection implements the method Connection.QueryWithConnection.
 func (db *Sqlite) QueryWithConnection(con string, query string, args ...interface{}) ([]map[string]interface{}, error) {
-	return CommonQuery(db.DbList[con], query, args...)
+	return CommonQuery(db.DbList[con], query, args[0])
 }
 
 // ExecWithConnection implements the method Connection.ExecWithConnection.
@@ -102,7 +112,7 @@ func (db *Sqlite) ExecWithConnection(con string, query string, args ...interface
 
 // Query implements the method Connection.Query.
 func (db *Sqlite) Query(query string, args ...interface{}) ([]map[string]interface{}, error) {
-	return CommonQuery(db.DbList["default"], query, args...)
+	return CommonQuery(db.DbList["default"], query, args[0])
 }
 
 // Exec implements the method Connection.Exec.

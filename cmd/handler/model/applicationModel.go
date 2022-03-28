@@ -3,6 +3,7 @@ package model
 import (
 	"encoding/json"
 	"medusa-globalization-copywriting-system/cmd/datasource"
+	"medusa-globalization-copywriting-system/cmd/datasource/data"
 	"medusa-globalization-copywriting-system/cmd/datasource/dialect"
 	Entity "medusa-globalization-copywriting-system/cmd/entity/request"
 	"medusa-globalization-copywriting-system/tools/logger"
@@ -55,6 +56,15 @@ func (applicationModel ApplicationModel) AddApplication(applicationAddRequest *E
 		})
 }
 
-func (applicationModel ApplicationModel) SearchApplicationList(applicationAddRequest *Entity.ApplicationAddRequest) (ApplicationModel, error) {
-	return nil, nil
+func (applicationModel ApplicationModel) SearchApplicationList(applicationAddRequest *Entity.ApplicationAddRequest) (Entity.ApplicationAddRequest, error) {
+	where := applicationModel.Table("tb_application").
+		Select("*")
+	applicationAddResult := &Entity.ApplicationAddRequest{}
+	var datax data.TbApplication
+	exec, err := where.All(datax)
+	if err != nil {
+		m := exec[1]
+		print(m)
+	}
+	return *applicationAddResult, nil
 }

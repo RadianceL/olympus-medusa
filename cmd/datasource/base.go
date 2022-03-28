@@ -1,28 +1,19 @@
 package datasource
 
 import (
-	"database/sql"
+	"github.com/jinzhu/gorm"
 	"medusa-globalization-copywriting-system/cmd/config"
 	"sync"
 )
 
 // Base is a common Connection.
 type Base struct {
-	DbList  map[string]*sql.DB
+	DbList  map[string]*gorm.DB
 	Once    sync.Once
 	Configs config.DataSource
 }
 
-// Close implements the method Connection.Close.
-func (db *Base) Close() []error {
-	errs := make([]error, 0)
-	for _, d := range db.DbList {
-		errs = append(errs, d.Close())
-	}
-	return errs
-}
-
 // GetDB implements the method Connection.GetDB.
-func (db *Base) GetDB(key string) *sql.DB {
+func (db *Base) GetDB(key string) *gorm.DB {
 	return db.DbList[key]
 }

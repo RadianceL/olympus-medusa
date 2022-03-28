@@ -7,25 +7,21 @@ package datasource
 import (
 	"context"
 	"database/sql"
+	"github.com/jinzhu/gorm"
+	"github.com/mitchellh/mapstructure"
+	"medusa-globalization-copywriting-system/cmd/datasource/data"
 	"regexp"
 	"strings"
 )
 
 // CommonQuery is a common method of query.
-func CommonQuery(db *sql.DB, query string, args ...interface{}) ([]map[string]interface{}, error) {
-
-	rs, err := db.Query(query, args...)
-
-	if err != nil {
-		panic(err)
-	}
-
+func CommonQuery(db *gorm.DB, query string, args ...interface{}) ([]map[string]interface{}, error) {
+	rs, err := db.DB().Query(query, args...)
 	defer func() {
 		if rs != nil {
 			_ = rs.Close()
 		}
 	}()
-
 	col, colErr := rs.Columns()
 
 	if colErr != nil {
@@ -56,6 +52,8 @@ func CommonQuery(db *sql.DB, query string, args ...interface{}) ([]map[string]in
 			typeName := strings.ToUpper(r.ReplaceAllString(typeVal[j].DatabaseTypeName(), ""))
 			SetResultValue(&result, col[j], colVar[j], typeName)
 		}
+		var application data.TbApplication
+		mapstructure.Decode(result, &application)
 		results = append(results, result)
 	}
 	if err := rs.Err(); err != nil {
@@ -65,9 +63,8 @@ func CommonQuery(db *sql.DB, query string, args ...interface{}) ([]map[string]in
 }
 
 // CommonExec is a common method of exec.
-func CommonExec(db *sql.DB, query string, args ...interface{}) (sql.Result, error) {
-
-	rs, err := db.Exec(query, args...)
+func CommonExec(db *gorm.DB, query string, args ...interface{}) (sql.Result, error) {
+	rs, err := db.DB().Exec(query, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -137,8 +134,8 @@ func CommonExecWithTx(tx *sql.Tx, query string, args ...interface{}) (sql.Result
 }
 
 // CommonBeginTxWithLevel starts a transaction with given transaction isolation level and db connection.
-func CommonBeginTxWithLevel(db *sql.DB, level sql.IsolationLevel) *sql.Tx {
-	tx, err := db.BeginTx(context.Background(), &sql.TxOptions{Isolation: level})
+func CommonBeginTxWithLevel(db *gorm.DB, level sql.IsolationLevel) *sql.Tx {
+	tx, err := db.DB().BeginTx(context.Background(), &sql.TxOptions{Isolation: level})
 	if err != nil {
 		panic(err)
 	}
