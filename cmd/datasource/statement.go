@@ -5,9 +5,7 @@
 package datasource
 
 import (
-	"bytes"
 	dbsql "database/sql"
-	"encoding/gob"
 	"errors"
 	"medusa-globalization-copywriting-system/cmd/datasource/dialect"
 	"medusa-globalization-copywriting-system/tools/logger"
@@ -60,7 +58,7 @@ func newSQL() *SQL {
 // process method
 // *******************************
 
-// TableName return a SQL with given table and default connection.
+// Table return a SQL with given table and default connection.
 func Table(table string) *SQL {
 	sql := newSQL()
 	sql.TableName = table
@@ -105,7 +103,7 @@ func (sql *SQL) WithTx(tx *dbsql.Tx) *SQL {
 	return sql
 }
 
-// TableName set table of SQL.
+// Table set table of SQL.
 func (sql *SQL) Table(table string) *SQL {
 	sql.clean()
 	sql.TableName = table
@@ -249,7 +247,7 @@ func (sql *SQL) Count() (int64, error) {
 	return res["count(*)"].(int64), nil
 }
 
-// Sum sum the value of given field.
+// Sum -sum the value of given field.
 func (sql *SQL) Sum(field string) (float64, error) {
 	var (
 		res map[string]interface{}
@@ -442,14 +440,6 @@ func (sql *SQL) All() ([]map[string]interface{}, error) {
 	return with, err
 }
 
-func GOBDeepCopy(dst, src interface{}) error {
-	var buf bytes.Buffer
-	if err := gob.NewEncoder(&buf).Encode(src); err != nil {
-		return err
-	}
-	return gob.NewDecoder(bytes.NewBuffer(buf.Bytes())).Decode(dst)
-}
-
 // ShowColumns show columns info.
 func (sql *SQL) ShowColumns() ([]map[string]interface{}, error) {
 	defer RecycleSQL(sql)
@@ -533,7 +523,7 @@ func (sql *SQL) Delete() error {
 	return nil
 }
 
-// Exec exec the exec method.
+// Exec -exec method.
 func (sql *SQL) Exec() (int64, error) {
 	defer RecycleSQL(sql)
 
