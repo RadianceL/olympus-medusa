@@ -9,7 +9,6 @@ import (
 	dbsql "database/sql"
 	"encoding/gob"
 	"errors"
-	"github.com/mitchellh/mapstructure"
 	"medusa-globalization-copywriting-system/cmd/datasource/dialect"
 	"medusa-globalization-copywriting-system/tools/logger"
 	"regexp"
@@ -436,20 +435,11 @@ func (sql *SQL) First() (map[string]interface{}, error) {
 }
 
 // All query all the result and return.
-func (sql *SQL) All(out interface{}) ([]interface{}, error) {
+func (sql *SQL) All() ([]map[string]interface{}, error) {
 	defer RecycleSQL(sql)
-
 	sql.dialect.Select(&sql.SQLComponent)
 	with, err := sql.diver.QueryWith(sql.tx, sql.conn, sql.Statement, sql.Args...)
-
-	var result []interface{}
-	for _, value := range with {
-		mapstructure.Decode(value, &out)
-		outputResult := out
-		result = append(result, outputResult)
-	}
-
-	return result, err
+	return with, err
 }
 
 func GOBDeepCopy(dst, src interface{}) error {

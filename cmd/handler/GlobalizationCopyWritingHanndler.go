@@ -3,7 +3,6 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
-	"medusa-globalization-copywriting-system/cmd/datasource"
 	Entity "medusa-globalization-copywriting-system/cmd/entity/request"
 	Response "medusa-globalization-copywriting-system/cmd/entity/response"
 	"medusa-globalization-copywriting-system/cmd/handler/model"
@@ -14,19 +13,90 @@ type RestHandler struct{}
 
 // CreateApplication 创建多语言应用/**
 func (result RestHandler) CreateApplication(context *gin.Context) {
-	applicationAddRequest := &Entity.ApplicationAddRequest{}
+	applicationAddRequest := &Entity.ApplicationRequest{}
 	err := context.ShouldBindBodyWith(&applicationAddRequest, binding.JSON)
-	if err != nil {
+	if applicationAddRequest.ApplicationName == "" {
+		Response.ResFail(context, "应用名称不能为空")
 		return
 	}
-	applicationModel := model.Application().SetConn(datasource.Conn)
-	_, err = applicationModel.AddApplication(applicationAddRequest)
 	if err != nil {
 		Response.ResErrCli(context, err)
 		return
 	}
-
+	_, err = model.ApplicationHandler.AddApplication(applicationAddRequest)
+	if err != nil {
+		Response.ResErrCli(context, err)
+		return
+	}
 	Response.ResSuccessMsg(context)
+}
+
+// ListApplication 查询应用列表/**
+func (result RestHandler) ListApplication(context *gin.Context) {
+	applicationAddRequest := &Entity.ApplicationRequest{}
+	shouldBindBodyWithErr := context.ShouldBindBodyWith(&applicationAddRequest, binding.JSON)
+	if shouldBindBodyWithErr != nil {
+		Response.ResFail(context, "json解析异常")
+		return
+	}
+	searchApplicationList, searchApplicationError := model.ApplicationHandler.SearchApplicationList(applicationAddRequest)
+	if searchApplicationError != nil {
+		logger.Error(searchApplicationError)
+		Response.ResFail(context, "应用处理异常")
+		return
+	}
+	Response.ResSuccess(context, searchApplicationList)
+}
+
+// CreateGlobalizationCopyWritingNamespace 创建应用空间namespace/**
+func (result RestHandler) CreateGlobalizationCopyWritingNamespace(context *gin.Context) {
+	namespaceRequest := &Entity.NamespaceRequest{}
+	shouldBindBodyWithErr := context.ShouldBindBodyWith(&namespaceRequest, binding.JSON)
+	if shouldBindBodyWithErr != nil {
+		Response.ResFail(context, "json解析异常")
+		return
+	}
+	_, searchApplicationError := model.NamespaceHandler.CreateApplicationNamespace(namespaceRequest)
+	if searchApplicationError != nil {
+		logger.Error(searchApplicationError)
+		Response.ResFail(context, "应用处理异常")
+		return
+	}
+	Response.ResSuccessMsg(context)
+}
+
+// ListGlobalizationCopyWritingStruct 获取多语言文案结构/**
+func (result RestHandler) ListGlobalizationCopyWritingStruct(context *gin.Context) {
+	namespaceRequest := &Entity.NamespaceRequest{}
+	shouldBindBodyWithErr := context.ShouldBindBodyWith(&namespaceRequest, binding.JSON)
+	if shouldBindBodyWithErr != nil {
+		Response.ResFail(context, "json解析异常")
+		return
+	}
+	searchApplicationList, searchApplicationError := model.NamespaceHandler.ListApplicationNamespace(namespaceRequest)
+	if searchApplicationError != nil {
+		logger.Error(searchApplicationError)
+		Response.ResFail(context, "应用处理异常")
+		return
+	}
+	Response.ResSuccess(context, searchApplicationList)
+}
+
+// ListGlobalizationCopyWritingNamespace 查询应用文案命名空间/**
+func (result RestHandler) ListGlobalizationCopyWritingNamespace(context *gin.Context) {
+	applicationAddRequest := &Entity.ApplicationRequest{}
+	shouldBindBodyWithErr := context.ShouldBindBodyWith(&applicationAddRequest, binding.JSON)
+	if shouldBindBodyWithErr != nil {
+		Response.ResFail(context, "json解析异常")
+		return
+	}
+	searchApplicationList, searchApplicationError := model.ApplicationHandler.SearchApplicationList(applicationAddRequest)
+	if searchApplicationError != nil {
+		logger.Error(searchApplicationError)
+		Response.ResFail(context, "应用处理异常")
+		return
+	}
+	Response.ResSuccess(context, searchApplicationList)
 }
 
 // CreateGlobalizationCopyWriting 创建多语言文案/**
@@ -59,43 +129,6 @@ func (result RestHandler) UpdateGlobalizationCopyWriting(context *gin.Context) {
 
 // CommitGlobalizationCopyWriting 提交多语言文案更新/**
 func (result RestHandler) CommitGlobalizationCopyWriting(context *gin.Context) {
-	json := &Entity.DocumentAddRequest{}
-	err := context.ShouldBindBodyWith(&json, binding.JSON)
-	if err != nil {
-		Response.ResFail(context, "json解析异常")
-	}
-	if json.Path == "" {
-		Response.ResFail(context, "")
-	}
-	logger.Info("aaa{}", json)
-	Response.ResSuccessMsg(context)
-}
-
-// ListGlobalizationCopyWritingNamespace 查询应用文案命名空间/**
-func (result RestHandler) ListGlobalizationCopyWritingNamespace(context *gin.Context) {
-	json := &Entity.DocumentAddRequest{}
-	err := context.ShouldBindBodyWith(&json, binding.JSON)
-	if err != nil {
-		Response.ResFail(context, "json解析异常")
-	}
-	if json.Path == "" {
-		Response.ResFail(context, "")
-	}
-
-	applicationAddRequest := &Entity.ApplicationAddRequest{}
-	err1 := context.ShouldBindBodyWith(&applicationAddRequest, binding.JSON)
-	if err1 != nil {
-		return
-	}
-	applicationModel := model.Application().SetConn(datasource.Conn)
-	_, err = applicationModel.SearchApplicationList(applicationAddRequest)
-
-	logger.Info("aaa{}", json)
-	Response.ResSuccessMsg(context)
-}
-
-// ListGlobalizationCopyWritingStruct 创建多语言文案/**
-func (result RestHandler) ListGlobalizationCopyWritingStruct(context *gin.Context) {
 	json := &Entity.DocumentAddRequest{}
 	err := context.ShouldBindBodyWith(&json, binding.JSON)
 	if err != nil {

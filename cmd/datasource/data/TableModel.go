@@ -1,6 +1,6 @@
 package data
 
-type TbApplication struct {
+type TableApplication struct {
 	Id int64
 	// 应用名称
 	ApplicationName string
@@ -14,4 +14,14 @@ type TbApplication struct {
 	ApplicationLanguage []string
 	// 应用环境
 	ApplicationEnvironment string
+}
+
+type TableApplicationNamespace struct {
+	NamespaceId            int
+	NamespaceCode          string
+	NamespaceName          string
+	NamespacePath          string
+	NamespaceParentId      int
+	NamespaceApplicationId int
+	CreateUserId           int
 }

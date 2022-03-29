@@ -1,23 +1,23 @@
-package model
+package basic
 
 import (
 	"database/sql"
 	"medusa-globalization-copywriting-system/cmd/datasource"
 )
 
-// Base is base model structure.
-type Base struct {
+// BaseModel is basic model structure.
+type BaseModel struct {
 	TableName string
 
 	Conn datasource.Connection
 	Tx   *sql.Tx
 }
 
-func (b Base) SetConn(con datasource.Connection) Base {
+func (b BaseModel) SetConn(con datasource.Connection) BaseModel {
 	b.Conn = con
 	return b
 }
 
-func (b Base) Table(table string) *datasource.SQL {
+func (b BaseModel) Table(table string) *datasource.SQL {
 	return datasource.Table(table).WithDriver(b.Conn)
 }

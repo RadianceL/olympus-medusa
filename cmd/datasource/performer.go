@@ -52,7 +52,7 @@ func CommonQuery(db *gorm.DB, query string, args ...interface{}) ([]map[string]i
 			typeName := strings.ToUpper(r.ReplaceAllString(typeVal[j].DatabaseTypeName(), ""))
 			SetResultValue(&result, col[j], colVar[j], typeName)
 		}
-		var application data.TbApplication
+		var application data.TableApplication
 		mapstructure.Decode(result, &application)
 		results = append(results, result)
 	}

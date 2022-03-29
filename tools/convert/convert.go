@@ -754,7 +754,7 @@ func ToUint8E(i interface{}) (uint8, error) {
 // From html/template/content.go
 // Copyright 2011 The Go Authors. All rights reserved.
 // indirect returns the value, after dereferencing as many times
-// as necessary to reach the base type (or nil).
+// as necessary to reach the basic type (or nil).
 func indirect(a interface{}) interface{} {
 	if a == nil {
 		return nil
@@ -773,7 +773,7 @@ func indirect(a interface{}) interface{} {
 // From html/template/content.go
 // Copyright 2011 The Go Authors. All rights reserved.
 // indirectToStringerOrError returns the value, after dereferencing as many times
-// as necessary to reach the base type (or nil) or an implementation of fmt.Stringer
+// as necessary to reach the basic type (or nil) or an implementation of fmt.Stringer
 // or error,
 func indirectToStringerOrError(a interface{}) interface{} {
 	if a == nil {

@@ -1,18 +1,28 @@
 package request
 
-type ApplicationAddRequest struct {
+type ApplicationRequest struct {
 	// 应用名称
-	ApplicationName string `json:"application_name,omitempty"`
+	ApplicationName string `json:"applicationName,omitempty"`
 	// 应用类型 WEB & APPLICATION
-	ApplicationType string `json:"application_type,omitempty"`
+	ApplicationType string `json:"applicationType,omitempty"`
 	// 应用管理员
-	ApplicationAdministrators int32 `json:"application_administrators,omitempty"`
+	ApplicationAdministrators int `json:"applicationAdministrators,omitempty"`
 	// 应用路径 默认应用路径
-	ApplicationPath string `json:"application_path,omitempty"`
+	ApplicationPath string `json:"applicationPath,omitempty"`
 	// 包含的语言范围
-	ApplicationLanguage []string `json:"application_language,omitempty"`
+	ApplicationLanguage []string `json:"applicationLanguage,omitempty"`
 	// 应用环境
-	ApplicationEnvironment string `json:"application_environment,omitempty"`
+	ApplicationEnvironment string `json:"applicationEnvironment,omitempty"`
+}
+
+type NamespaceRequest struct {
+	NamespaceId            int    `json:"namespaceId,omitempty"`
+	NamespaceCode          string `json:"namespaceCode,omitempty"`
+	NamespaceName          string `json:"namespaceName,omitempty"`
+	NamespacePath          string `json:"namespacePath,omitempty"`
+	NamespaceParentId      int    `json:"namespaceParentId,omitempty"`
+	NamespaceApplicationId int    `json:"namespaceApplicationId,omitempty"`
+	CreateUserId           int    `json:"createUserId,omitempty"`
 }
 
 type DocumentAddRequest struct {

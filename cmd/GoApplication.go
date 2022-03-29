@@ -6,6 +6,7 @@ import (
 	_ "github.com/mattn/go-sqlite3" // Import the sqlite driver.
 	"medusa-globalization-copywriting-system/cmd/config"
 	"medusa-globalization-copywriting-system/cmd/datasource"
+	"medusa-globalization-copywriting-system/cmd/handler/model"
 	"medusa-globalization-copywriting-system/cmd/middleware"
 	"medusa-globalization-copywriting-system/cmd/router"
 	"medusa-globalization-copywriting-system/tools/convert"
@@ -27,6 +28,7 @@ func main() {
 	logger.InitLog("debug", "./build/data/log/log.log")
 	// 初始化数据
 	datasource.Conn = datasource.GetConnectionByDriver(loadConfig.DataSource.DBType).InitDB(loadConfig.DataSource)
+	model.RepositoryModelContainer.InitializationAll()
 	// 初始化web服务
 	initWeb(loadConfig)
 }
