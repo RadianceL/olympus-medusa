@@ -58,6 +58,9 @@ func (namespaceModel NamespaceModel) CreateApplicationNamespace(namespaceRequest
 
 func (namespaceModel NamespaceModel) ListApplicationNamespace(namespaceRequest *Entity.NamespaceRequest) ([]data.TableApplicationNamespace, error) {
 	statement := namespaceModel.Table(namespaceModelTableName).Select("*")
+	if namespaceRequest.NamespaceCode != "" {
+		statement.Where(namespaceCode, "=", namespaceRequest.NamespaceCode)
+	}
 	if namespaceRequest.NamespaceName != "" {
 		statement.Where(namespaceName, "LIKE", "%"+namespaceRequest.NamespaceName+"%")
 	}
