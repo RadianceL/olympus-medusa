@@ -94,27 +94,27 @@ func (result RestHandler) ListGlobalizationCopyWritingNamespace(context *gin.Con
 
 // CreateGlobalizationCopyWriting 创建多语言文案/**
 func (result RestHandler) CreateGlobalizationCopyWriting(context *gin.Context) {
-	json := &Entity.DocumentAddRequest{}
+	json := &Entity.GlobalDocumentRequest{}
 	err := context.ShouldBindBodyWith(&json, binding.JSON)
 	if err != nil {
 		Response.ResFail(context, "json解析异常")
+		return
 	}
-	if json.Path == "" {
-		Response.ResFail(context, "")
+	resultId, err := model.DocumentHandler.CreateDocument(json)
+	if err != nil {
+		Response.ResErrCli(context, err)
+		return
 	}
-	logger.Info("aaa{}", json)
+	println(resultId)
 	Response.ResSuccessMsg(context)
 }
 
 // UpdateGlobalizationCopyWriting 更新多语言文案/**
 func (result RestHandler) UpdateGlobalizationCopyWriting(context *gin.Context) {
-	json := &Entity.DocumentAddRequest{}
+	json := &Entity.GlobalDocumentRequest{}
 	err := context.ShouldBindBodyWith(&json, binding.JSON)
 	if err != nil {
 		Response.ResFail(context, "json解析异常")
-	}
-	if json.Path == "" {
-		Response.ResFail(context, "")
 	}
 	logger.Info("aaa{}", json)
 	Response.ResSuccessMsg(context)
@@ -122,13 +122,10 @@ func (result RestHandler) UpdateGlobalizationCopyWriting(context *gin.Context) {
 
 // CommitGlobalizationCopyWriting 提交多语言文案更新/**
 func (result RestHandler) CommitGlobalizationCopyWriting(context *gin.Context) {
-	json := &Entity.DocumentAddRequest{}
+	json := &Entity.GlobalDocumentRequest{}
 	err := context.ShouldBindBodyWith(&json, binding.JSON)
 	if err != nil {
 		Response.ResFail(context, "json解析异常")
-	}
-	if json.Path == "" {
-		Response.ResFail(context, "")
 	}
 	logger.Info("aaa{}", json)
 	Response.ResSuccessMsg(context)
@@ -136,13 +133,10 @@ func (result RestHandler) CommitGlobalizationCopyWriting(context *gin.Context) {
 
 // ListGlobalizationCopyWriting 创建多语言文案/**
 func (result RestHandler) ListGlobalizationCopyWriting(context *gin.Context) {
-	json := &Entity.DocumentAddRequest{}
+	json := &Entity.GlobalDocumentRequest{}
 	err := context.ShouldBindBodyWith(&json, binding.JSON)
 	if err != nil {
 		Response.ResFail(context, "json解析异常")
-	}
-	if json.Path == "" {
-		Response.ResFail(context, "")
 	}
 	logger.Info("aaa{}", json)
 	Response.ResSuccessMsg(context)
@@ -150,13 +144,10 @@ func (result RestHandler) ListGlobalizationCopyWriting(context *gin.Context) {
 
 // ListGlobalizationCopyWritingHistory 创建多语言文案/**
 func (result RestHandler) ListGlobalizationCopyWritingHistory(context *gin.Context) {
-	json := &Entity.DocumentAddRequest{}
+	json := &Entity.GlobalDocumentRequest{}
 	err := context.ShouldBindBodyWith(&json, binding.JSON)
 	if err != nil {
 		Response.ResFail(context, "json解析异常")
-	}
-	if json.Path == "" {
-		Response.ResFail(context, "")
 	}
 	logger.Info("aaa{}", json)
 	Response.ResSuccessMsg(context)

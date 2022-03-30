@@ -25,15 +25,14 @@ type NamespaceRequest struct {
 	CreateUserId           int    `json:"createUserId,omitempty"`
 }
 
-type DocumentAddRequest struct {
-	Application string     `json:"application,omitempty"`
-	Type        string     `json:"type,omitempty"`
-	Path        string     `json:"path,omitempty"`
-	Key         string     `json:"key,omitempty"`
-	Document    []Document `json:"document,omitempty"`
+type GlobalDocumentRequest struct {
+	ApplicationId int                      `json:"applicationId,omitempty"`
+	NamespaceId   int                      `json:"namespaceId,omitempty"`
+	Key           string                   `json:"key,omitempty"`
+	Documents     []GlobalDocumentLanguage `json:"documents,omitempty"`
 }
 
-type Document struct {
+type GlobalDocumentLanguage struct {
 	CountryCode   string `json:"countryCode,omitempty"`
 	LanguageValue string `json:"languageValue,omitempty"`
 }

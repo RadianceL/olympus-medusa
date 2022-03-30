@@ -2,16 +2,18 @@ package language
 
 import "errors"
 
-var CN, _ = initialize("CH", "中文")
-var JP, _ = initialize("JP", "日文")
-var EN, _ = initialize("EN", "英文")
+var CN, _ = Initialize("CH", "中国", "中文")
+var JP, _ = Initialize("JP", "日本", "日文")
+var EN, _ = Initialize("EN", "英国", "英文")
+var RU, _ = Initialize("RU", "俄罗斯", "俄文")
 
 type Language struct {
-	CountryCode string
-	CountryName string
+	CountryCode     string
+	CountryName     string
+	CountryLanguage string
 }
 
-func findLanguage(countryCode string) *Language {
+func FindLanguage(countryCode string) *Language {
 	switch countryCode {
 	case CN.CountryCode:
 		return CN
@@ -19,14 +21,16 @@ func findLanguage(countryCode string) *Language {
 		return JP
 	case EN.CountryCode:
 		return EN
+	case RU.CountryCode:
+		return RU
 	default:
 		return nil
 	}
 }
 
-func initialize(countryCode string, countryName string) (lan *Language, err error) {
+func Initialize(countryCode string, countryName string, countryLanguage string) (lan *Language, err error) {
 	if countryCode == "" || len(countryName) != 2 {
 		err = errors.New("国家二字编码不能为空 || 非2个字符")
 	}
-	return &Language{CountryCode: countryCode, CountryName: countryName}, nil
+	return &Language{CountryCode: countryCode, CountryName: countryName, CountryLanguage: countryLanguage}, nil
 }

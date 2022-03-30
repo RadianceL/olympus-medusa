@@ -17,7 +17,7 @@ const (
 	namespacePath           = "namespace_path"
 	namespaceParentId       = "namespace_parent_id"
 	namespaceApplicationId  = "application_id"
-	createUserId            = "create_user"
+	createUser              = "create_user"
 )
 
 // NamespaceModel is application model structure.
@@ -52,7 +52,7 @@ func (namespaceModel NamespaceModel) CreateApplicationNamespace(namespaceRequest
 			namespacePath:          namespaceRequest.NamespacePath,
 			namespaceParentId:      namespaceRequest.NamespaceParentId,
 			namespaceApplicationId: namespaceRequest.NamespaceApplicationId,
-			createUserId:           namespaceRequest.CreateUserId,
+			createUser:             namespaceRequest.CreateUserId,
 		})
 }
 

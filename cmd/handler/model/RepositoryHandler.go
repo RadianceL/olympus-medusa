@@ -6,6 +6,9 @@ var ApplicationHandler ApplicationModel
 // NamespaceHandler 命名空间Model的数据库操作句柄
 var NamespaceHandler NamespaceModel
 
+// DocumentHandler 字典编码Model的数据库操作句柄
+var DocumentHandler DocumentModel
+
 type RepositoryInitializationInterface interface {
 	Initialization()
 }
