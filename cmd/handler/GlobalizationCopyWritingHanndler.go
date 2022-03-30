@@ -12,7 +12,7 @@ import (
 type RestHandler struct{}
 
 // CreateApplication 创建多语言应用/**
-func (result RestHandler) CreateApplication(context *gin.Context) {
+func (restHandler RestHandler) CreateApplication(context *gin.Context) {
 	applicationAddRequest := &Entity.ApplicationRequest{}
 	err := context.ShouldBindBodyWith(&applicationAddRequest, binding.JSON)
 	if applicationAddRequest.ApplicationName == "" {
@@ -32,7 +32,7 @@ func (result RestHandler) CreateApplication(context *gin.Context) {
 }
 
 // ListApplication 查询应用列表/**
-func (result RestHandler) ListApplication(context *gin.Context) {
+func (restHandler RestHandler) ListApplication(context *gin.Context) {
 	applicationAddRequest := &Entity.ApplicationRequest{}
 	shouldBindBodyWithErr := context.ShouldBindBodyWith(&applicationAddRequest, binding.JSON)
 	if shouldBindBodyWithErr != nil {
@@ -49,7 +49,7 @@ func (result RestHandler) ListApplication(context *gin.Context) {
 }
 
 // CreateGlobalizationCopyWritingNamespace 创建应用空间namespace/**
-func (result RestHandler) CreateGlobalizationCopyWritingNamespace(context *gin.Context) {
+func (restHandler RestHandler) CreateGlobalizationCopyWritingNamespace(context *gin.Context) {
 	namespaceRequest := &Entity.NamespaceRequest{}
 	shouldBindBodyWithErr := context.ShouldBindBodyWith(&namespaceRequest, binding.JSON)
 	if shouldBindBodyWithErr != nil {
@@ -59,7 +59,7 @@ func (result RestHandler) CreateGlobalizationCopyWritingNamespace(context *gin.C
 }
 
 // ListGlobalizationCopyWritingStruct 获取多语言文案结构/**
-func (result RestHandler) ListGlobalizationCopyWritingStruct(context *gin.Context) {
+func (restHandler RestHandler) ListGlobalizationCopyWritingStruct(context *gin.Context) {
 	namespaceRequest := &Entity.NamespaceRequest{}
 	shouldBindBodyWithErr := context.ShouldBindBodyWith(&namespaceRequest, binding.JSON)
 	if shouldBindBodyWithErr != nil {
@@ -76,14 +76,16 @@ func (result RestHandler) ListGlobalizationCopyWritingStruct(context *gin.Contex
 }
 
 // ListGlobalizationCopyWritingNamespace 查询应用文案命名空间/**
-func (result RestHandler) ListGlobalizationCopyWritingNamespace(context *gin.Context) {
-	applicationAddRequest := &Entity.ApplicationRequest{}
-	shouldBindBodyWithErr := context.ShouldBindBodyWith(&applicationAddRequest, binding.JSON)
+func (restHandler RestHandler) ListGlobalizationCopyWritingNamespace(context *gin.Context) {
+	globalDocumentRequest := &Entity.GlobalDocumentRequest{}
+	shouldBindBodyWithErr := context.ShouldBindBodyWith(&globalDocumentRequest, binding.JSON)
 	if shouldBindBodyWithErr != nil {
 		Response.ResFail(context, "json解析异常")
 		return
 	}
-	searchApplicationList, searchApplicationError := model.ApplicationHandler.SearchApplicationList(applicationAddRequest)
+	searchApplicationList, searchApplicationError :=
+		model.DocumentHandler.SearchDocumentByNamespaceId(
+			globalDocumentRequest.ApplicationId, globalDocumentRequest.NamespaceId)
 	if searchApplicationError != nil {
 		logger.Error(searchApplicationError)
 		Response.ResFail(context, "应用处理异常")
@@ -93,7 +95,7 @@ func (result RestHandler) ListGlobalizationCopyWritingNamespace(context *gin.Con
 }
 
 // CreateGlobalizationCopyWriting 创建多语言文案/**
-func (result RestHandler) CreateGlobalizationCopyWriting(context *gin.Context) {
+func (restHandler RestHandler) CreateGlobalizationCopyWriting(context *gin.Context) {
 	json := &Entity.GlobalDocumentRequest{}
 	err := context.ShouldBindBodyWith(&json, binding.JSON)
 	if err != nil {
@@ -109,8 +111,24 @@ func (result RestHandler) CreateGlobalizationCopyWriting(context *gin.Context) {
 	Response.ResSuccessMsg(context)
 }
 
+// QueryGlobalizationCopyWritingDetail 创建多语言文案/**
+func (restHandler RestHandler) QueryGlobalizationCopyWritingDetail(context *gin.Context) {
+	json := &Entity.GlobalDocumentRequest{}
+	err := context.ShouldBindBodyWith(&json, binding.JSON)
+	if err != nil {
+		Response.ResFail(context, "json解析异常")
+		return
+	}
+	result, err := model.DocumentHandler.SearchDocumentById(json.Id)
+	if err != nil {
+		Response.ResErrCli(context, err)
+		return
+	}
+	Response.ResSuccess(context, result)
+}
+
 // UpdateGlobalizationCopyWriting 更新多语言文案/**
-func (result RestHandler) UpdateGlobalizationCopyWriting(context *gin.Context) {
+func (restHandler RestHandler) UpdateGlobalizationCopyWriting(context *gin.Context) {
 	json := &Entity.GlobalDocumentRequest{}
 	err := context.ShouldBindBodyWith(&json, binding.JSON)
 	if err != nil {
@@ -121,7 +139,7 @@ func (result RestHandler) UpdateGlobalizationCopyWriting(context *gin.Context) {
 }
 
 // CommitGlobalizationCopyWriting 提交多语言文案更新/**
-func (result RestHandler) CommitGlobalizationCopyWriting(context *gin.Context) {
+func (restHandler RestHandler) CommitGlobalizationCopyWriting(context *gin.Context) {
 	json := &Entity.GlobalDocumentRequest{}
 	err := context.ShouldBindBodyWith(&json, binding.JSON)
 	if err != nil {
@@ -132,7 +150,7 @@ func (result RestHandler) CommitGlobalizationCopyWriting(context *gin.Context) {
 }
 
 // ListGlobalizationCopyWriting 创建多语言文案/**
-func (result RestHandler) ListGlobalizationCopyWriting(context *gin.Context) {
+func (restHandler RestHandler) ListGlobalizationCopyWriting(context *gin.Context) {
 	json := &Entity.GlobalDocumentRequest{}
 	err := context.ShouldBindBodyWith(&json, binding.JSON)
 	if err != nil {
@@ -143,7 +161,7 @@ func (result RestHandler) ListGlobalizationCopyWriting(context *gin.Context) {
 }
 
 // ListGlobalizationCopyWritingHistory 创建多语言文案/**
-func (result RestHandler) ListGlobalizationCopyWritingHistory(context *gin.Context) {
+func (restHandler RestHandler) ListGlobalizationCopyWritingHistory(context *gin.Context) {
 	json := &Entity.GlobalDocumentRequest{}
 	err := context.ShouldBindBodyWith(&json, binding.JSON)
 	if err != nil {

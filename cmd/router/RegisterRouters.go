@@ -19,6 +19,8 @@ func RegisterRouterSys(app *gin.RouterGroup) {
 	app.POST("/application/namespace/document/list", menu.ListGlobalizationCopyWritingNamespace)
 	// 创建应用文案
 	app.POST("/application/document/create", menu.CreateGlobalizationCopyWriting)
+	// 应用文案详情
+	app.POST("/application/document/query", menu.QueryGlobalizationCopyWritingDetail)
 	// 更新应用文案
 	app.POST("/application/document/update", menu.UpdateGlobalizationCopyWriting)
 	// 审核应用文案

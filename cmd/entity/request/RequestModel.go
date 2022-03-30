@@ -26,6 +26,7 @@ type NamespaceRequest struct {
 }
 
 type GlobalDocumentRequest struct {
+	Id            int                      `json:"id,omitempty"`
 	ApplicationId int                      `json:"applicationId,omitempty"`
 	NamespaceId   int                      `json:"namespaceId,omitempty"`
 	Key           string                   `json:"key,omitempty"`
