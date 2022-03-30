@@ -30,6 +30,7 @@ type TableGlobalDocument struct {
 	Id            int                           `json:"id,omitempty"`
 	ApplicationId int                           `json:"applicationId,omitempty"`
 	NamespaceId   int                           `json:"namespaceId,omitempty"`
+	DocumentDesc  int                           `json:"documentDesc,omitempty"`
 	DocumentCode  string                        `json:"documentCode,omitempty"`
 	Documents     []TableGlobalDocumentLanguage `json:"documents,omitempty"`
 }
