@@ -70,7 +70,7 @@ func (applicationModel ApplicationModel) AddApplication(applicationAddRequest *E
 func (applicationModel ApplicationModel) SearchApplicationList(applicationAddRequest *Entity.ApplicationRequest) ([]data.TableApplication, error) {
 	statement := applicationModel.Table(applicationModelTableName).Select("*")
 	if applicationAddRequest.ApplicationName != "" {
-		statement.Where(applicationEnvironment, "=", applicationAddRequest.ApplicationName)
+		statement.Where(applicationEnvironment, "LIKE", "%"+applicationAddRequest.ApplicationName+"%")
 	}
 	resultData, err := statement.All()
 	if err != nil {
@@ -80,6 +80,16 @@ func (applicationModel ApplicationModel) SearchApplicationList(applicationAddReq
 	for _, value := range resultData {
 		var outputResult data.TableApplication
 		mapstructure.Decode(value, &outputResult)
+		mustContainLanguage := value["MustContainLanguage"]
+		if mustContainLanguage != nil {
+			var jsonObj []string
+			b := []byte(mustContainLanguage.(string))
+			err := json.Unmarshal(b, &jsonObj)
+			if err != nil {
+				return nil, err
+			}
+			outputResult.ApplicationLanguage = jsonObj
+		}
 		result = append(result, outputResult)
 	}
 	if result == nil {

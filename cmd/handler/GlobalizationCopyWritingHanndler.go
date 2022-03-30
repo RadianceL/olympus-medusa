@@ -56,6 +56,13 @@ func (restHandler RestHandler) CreateGlobalizationCopyWritingNamespace(context *
 		Response.ResFail(context, "json解析异常")
 		return
 	}
+	_, searchApplicationError := model.NamespaceHandler.CreateApplicationNamespace(namespaceRequest)
+	if searchApplicationError != nil {
+		logger.Error(searchApplicationError)
+		Response.ResErrCli(context, searchApplicationError)
+		return
+	}
+	Response.ResSuccessMsg(context)
 }
 
 // ListGlobalizationCopyWritingStruct 获取多语言文案结构/**

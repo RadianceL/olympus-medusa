@@ -29,11 +29,12 @@ type GlobalDocumentRequest struct {
 	Id            int                      `json:"id,omitempty"`
 	ApplicationId int                      `json:"applicationId,omitempty"`
 	NamespaceId   int                      `json:"namespaceId,omitempty"`
-	Key           string                   `json:"key,omitempty"`
+	DocumentCode  string                   `json:"documentCode,omitempty"`
+	DocumentDesc  string                   `json:"documentDesc,omitempty"`
 	Documents     []GlobalDocumentLanguage `json:"documents,omitempty"`
 }
 
 type GlobalDocumentLanguage struct {
-	CountryCode   string `json:"countryCode,omitempty"`
-	LanguageValue string `json:"languageValue,omitempty"`
+	CountryIso    string `json:"countryIso,omitempty"`
+	DocumentValue string `json:"documentValue,omitempty"`
 }

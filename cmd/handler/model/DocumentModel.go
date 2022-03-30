@@ -18,6 +18,7 @@ const (
 	applicationIdField         = "application_id"
 	namespaceIdField           = "namespace_id"
 	documentCodeField          = "document_code"
+	documentDescField          = "document_desc"
 	isEnableField              = "is_enable"
 	onlineTimeField            = "online_time"
 	onlineOperatorUserIdField  = "online_operator_user_id"
@@ -73,7 +74,8 @@ func (documentModel DocumentModel) CreateDocument(namespaceRequest *Entity.Globa
 			applicationIdField: namespaceRequest.ApplicationId,
 			namespaceIdField:   namespaceRequest.NamespaceId,
 			onlineTimeField:    time.Now(),
-			documentCodeField:  namespaceRequest.Key,
+			documentCodeField:  namespaceRequest.DocumentCode,
+			documentDescField:  namespaceRequest.DocumentDesc,
 			createUserIdField:  0,
 		})
 	if err != nil {
@@ -82,8 +84,9 @@ func (documentModel DocumentModel) CreateDocument(namespaceRequest *Entity.Globa
 	}
 	documents := namespaceRequest.Documents
 	for _, document := range documents {
-		languageCountry := language.FindLanguage(document.CountryCode)
+		languageCountry := language.FindLanguage(document.CountryIso)
 		if languageCountry == nil {
+			_ = tx.Rollback()
 			return 0, errors.New("未识别的国家编码，请检查后重试")
 		}
 		_, err := documentModel.Table(documentValueTableName).
@@ -91,9 +94,9 @@ func (documentModel DocumentModel) CreateDocument(namespaceRequest *Entity.Globa
 			Insert(dialect.H{
 				documentIdField:    insertDocumentCodeResult,
 				namespaceIdField:   namespaceRequest.NamespaceId,
-				countryIsoField:    document.CountryCode,
+				countryIsoField:    document.CountryIso,
 				countryNameField:   languageCountry.CountryName,
-				documentValueField: document.LanguageValue,
+				documentValueField: document.DocumentValue,
 			})
 		if err != nil {
 			_ = tx.Rollback()

@@ -2,7 +2,7 @@ package language
 
 import "errors"
 
-var CN, _ = Initialize("CH", "中国", "中文")
+var CN, _ = Initialize("CN", "中国", "中文")
 var JP, _ = Initialize("JP", "日本", "日文")
 var EN, _ = Initialize("EN", "英国", "英文")
 var RU, _ = Initialize("RU", "俄罗斯", "俄文")
