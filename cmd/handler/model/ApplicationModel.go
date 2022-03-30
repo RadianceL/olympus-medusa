@@ -70,7 +70,7 @@ func (applicationModel ApplicationModel) AddApplication(applicationAddRequest *E
 func (applicationModel ApplicationModel) SearchApplicationList(applicationAddRequest *Entity.ApplicationRequest) ([]data.TableApplication, error) {
 	statement := applicationModel.Table(applicationModelTableName).Select("*")
 	if applicationAddRequest.ApplicationName != "" {
-		statement.Where(applicationEnvironment, "LIKE", "%"+applicationAddRequest.ApplicationName+"%")
+		statement.Where(applicationName, "LIKE", "%"+applicationAddRequest.ApplicationName+"%")
 	}
 	resultData, err := statement.All()
 	if err != nil {
