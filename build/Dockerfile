@@ -12,4 +12,4 @@ EXPOSE 8080
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o scheduler_linux_amd64 GoApplication.go
 
-CMD ["./scheduler_linux_amd64"]
+CMD ["./scheduler_linux_amd64 -configs=../configs/application.yaml"]
