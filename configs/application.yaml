@@ -16,7 +16,7 @@ gorm:
   max_open_conns: 150
   max_idle_conns: 50
   mysql:
-    host: rm-uf6wq7d56177336o8oo.mysql.rds.aliyuncs.com
+    host: rm-uf6wq7d56177336o8.mysql.rds.aliyuncs.com
     port: 3306
     user: pass_saas_cn_super
     password: K9dA3amSkZm7%##p
