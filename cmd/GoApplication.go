@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/mattn/go-sqlite3" // Import the sqlite driver.
@@ -15,12 +16,15 @@ import (
 	"time"
 )
 
-const configPath = "./configs/application.yaml"
+var (
+	tomlFile = flag.String("config", "./configs/application.yaml", "config file")
+)
 
 // Run 运行
 func main() {
 	// 加载配置
-	loadConfig, err := config.LoadConfig(configPath)
+	flag.Parse()
+	loadConfig, err := config.LoadConfig(*tomlFile)
 	if err != nil {
 		panic(err)
 	}
