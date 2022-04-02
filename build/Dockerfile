@@ -1,6 +1,6 @@
 FROM golang:alpine AS builder
 ADD ./ /data/app/
-WORKDIR /data/app/
+WORKDIR /data/app/cmd
 
 ENV GO111MODULE=on \
     CGO_ENABLED=0 \
