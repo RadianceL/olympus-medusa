@@ -1,1 +1,1 @@
-# medusa-globalization-copywriting-system
+# olympus-medusa

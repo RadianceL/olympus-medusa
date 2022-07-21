@@ -7,8 +7,8 @@ package datasource
 import (
 	dbsql "database/sql"
 	"errors"
-	"medusa-globalization-copywriting-system/cmd/datasource/dialect"
-	"medusa-globalization-copywriting-system/tools/logger"
+	"olympus-medusa/cmd/datasource/dialect"
+	"olympus-medusa/tools/logger"
 	"regexp"
 	"strconv"
 	"strings"

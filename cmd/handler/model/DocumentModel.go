@@ -3,12 +3,12 @@ package model
 import (
 	"errors"
 	"github.com/mitchellh/mapstructure"
-	"medusa-globalization-copywriting-system/cmd/datasource"
-	"medusa-globalization-copywriting-system/cmd/datasource/data"
-	"medusa-globalization-copywriting-system/cmd/datasource/dialect"
-	Entity "medusa-globalization-copywriting-system/cmd/entity/request"
-	"medusa-globalization-copywriting-system/cmd/handler/model/basic"
-	"medusa-globalization-copywriting-system/tools/language"
+	"olympus-medusa/cmd/datasource"
+	"olympus-medusa/cmd/datasource/data"
+	"olympus-medusa/cmd/datasource/dialect"
+	Entity "olympus-medusa/cmd/entity/request"
+	"olympus-medusa/cmd/handler/model/basic"
+	"olympus-medusa/tools/language"
 	"time"
 )
 

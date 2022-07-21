@@ -2,7 +2,7 @@ package basic
 
 import (
 	"database/sql"
-	"medusa-globalization-copywriting-system/cmd/datasource"
+	"olympus-medusa/cmd/datasource"
 )
 
 // BaseModel is basic model structure.

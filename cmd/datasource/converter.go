@@ -6,7 +6,7 @@ package datasource
 
 import (
 	"database/sql"
-	"medusa-globalization-copywriting-system/tools/convert"
+	"olympus-medusa/tools/convert"
 )
 
 // SetColVarType set the column type.
