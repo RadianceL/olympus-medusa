@@ -3,7 +3,7 @@ package request
 import (
 	"errors"
 	"github.com/gin-gonic/gin"
-	"medusa-globalization-copywriting-system/tools/convert"
+	"olympus-medusa/tools/convert"
 )
 
 func GetQueryToStrE(c *gin.Context, key string) (string, error) {

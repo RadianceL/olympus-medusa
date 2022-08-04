@@ -2,7 +2,7 @@ package datasource
 
 import (
 	"github.com/jinzhu/gorm"
-	"medusa-globalization-copywriting-system/cmd/config"
+	"olympus-medusa/cmd/config"
 	"sync"
 )
 

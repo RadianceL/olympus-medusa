@@ -1,26 +1,30 @@
 package main
 
 import (
+	"flag"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/mattn/go-sqlite3" // Import the sqlite driver.
-	"medusa-globalization-copywriting-system/cmd/config"
-	"medusa-globalization-copywriting-system/cmd/datasource"
-	"medusa-globalization-copywriting-system/cmd/handler/model"
-	"medusa-globalization-copywriting-system/cmd/middleware"
-	"medusa-globalization-copywriting-system/cmd/router"
-	"medusa-globalization-copywriting-system/tools/convert"
-	"medusa-globalization-copywriting-system/tools/logger"
 	"net/http"
+	"olympus-medusa/cmd/config"
+	"olympus-medusa/cmd/datasource"
+	"olympus-medusa/cmd/handler/model"
+	"olympus-medusa/cmd/middleware"
+	"olympus-medusa/cmd/router"
+	"olympus-medusa/tools/convert"
+	"olympus-medusa/tools/logger"
 	"time"
 )
 
-const configPath = "./configs/application.yaml"
+var (
+	tomlFile = flag.String("config", "./configs/application.yaml", "config file")
+)
 
 // Run 运行
 func main() {
 	// 加载配置
-	loadConfig, err := config.LoadConfig(configPath)
+	flag.Parse()
+	loadConfig, err := config.LoadConfig(*tomlFile)
 	if err != nil {
 		panic(err)
 	}

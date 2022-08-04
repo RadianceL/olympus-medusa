@@ -7,7 +7,7 @@ package datasource
 import (
 	"database/sql"
 	"fmt"
-	"medusa-globalization-copywriting-system/cmd/config"
+	"olympus-medusa/cmd/config"
 	"strings"
 
 	_ "github.com/mattn/go-sqlite3" // Import the sqlite driver.

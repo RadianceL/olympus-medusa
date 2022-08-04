@@ -9,7 +9,7 @@ import (
 	"database/sql"
 	"github.com/jinzhu/gorm"
 	"github.com/mitchellh/mapstructure"
-	"medusa-globalization-copywriting-system/cmd/datasource/data"
+	"olympus-medusa/cmd/datasource/data"
 	"regexp"
 	"strings"
 )

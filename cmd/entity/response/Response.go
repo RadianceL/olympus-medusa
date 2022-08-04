@@ -1,8 +1,8 @@
 package response
 
 import (
-	"medusa-globalization-copywriting-system/tools/request"
 	"net/http"
+	"olympus-medusa/tools/request"
 
 	"github.com/gin-gonic/gin"
 )

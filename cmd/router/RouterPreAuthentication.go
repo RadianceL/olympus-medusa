@@ -5,7 +5,7 @@ import (
 )
 
 func RegisterRouter(app *gin.Engine) {
-	apiPrefix := "/api"
+	apiPrefix := "/document/api"
 	ginGroup := app.Group(apiPrefix)
 	// 登录验证 jwt token 验证 及信息提取
 	var notCheckLoginUrlArr []string

@@ -8,8 +8,8 @@ import (
 	"database/sql"
 	"github.com/jinzhu/gorm"
 	"log"
-	"medusa-globalization-copywriting-system/cmd/config"
-	"medusa-globalization-copywriting-system/tools/logger"
+	"olympus-medusa/cmd/config"
+	"olympus-medusa/tools/logger"
 	"os"
 	"time"
 )
