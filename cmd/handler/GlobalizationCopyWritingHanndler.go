@@ -3,10 +3,10 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
-	Entity "medusa-globalization-copywriting-system/cmd/entity/request"
-	Response "medusa-globalization-copywriting-system/cmd/entity/response"
-	"medusa-globalization-copywriting-system/cmd/handler/model"
-	"medusa-globalization-copywriting-system/tools/logger"
+	Entity "olympus-medusa/cmd/entity/request"
+	Response "olympus-medusa/cmd/entity/response"
+	"olympus-medusa/cmd/handler/model"
+	"olympus-medusa/tools/logger"
 )
 
 type RestHandler struct{}
