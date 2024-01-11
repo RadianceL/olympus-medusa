@@ -106,6 +106,9 @@ func (applicationModel ApplicationModel) SearchApplicationById(applicationId int
 		return data.TableApplication{}, err
 	}
 	var outputResult data.TableApplication
-	mapstructure.Decode(resultData, &outputResult)
+	err = mapstructure.Decode(resultData, &outputResult)
+	if err != nil {
+		return data.TableApplication{}, err
+	}
 	return outputResult, nil
 }
