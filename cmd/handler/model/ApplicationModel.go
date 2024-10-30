@@ -79,7 +79,7 @@ func (applicationModel ApplicationModel) SearchApplicationList(applicationAddReq
 	var result []data.TableApplication
 	for _, value := range resultData {
 		var outputResult data.TableApplication
-		mapstructure.Decode(value, &outputResult)
+		_ = mapstructure.Decode(value, &outputResult)
 		mustContainLanguage := value["MustContainLanguage"]
 		if mustContainLanguage != nil {
 			var jsonObj []string

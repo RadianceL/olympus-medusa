@@ -71,7 +71,7 @@ func (namespaceModel NamespaceModel) ListApplicationNamespace(namespaceRequest *
 	var result []data.TableApplicationNamespace
 	for _, value := range resultData {
 		var outputResult data.TableApplicationNamespace
-		mapstructure.Decode(value, &outputResult)
+		_ = mapstructure.Decode(value, &outputResult)
 		result = append(result, outputResult)
 	}
 	if result == nil {
